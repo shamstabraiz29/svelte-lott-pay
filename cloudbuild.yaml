@@ -1,0 +1,47 @@
+steps:
+  # - id: build-push
+  #   name: gcr.io/kaniko-project/executor:latest
+  #   args:
+  #     - --destination=$_IMAGE_NAME
+  #     - --build-arg=VITE_PUBLIC_API_URL=$_PUBLIC_API_URL
+  #     - --build-arg=VITE_PUBLIC_FIREBASE_CONFIG=$_PUBLIC_FIREBASE_CONFIG
+  #     - --build-arg=VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY=$$STRIPE_PUBLISHABLE_KEY
+  #     - --cache=true
+  #   secretEnv: ["STRIPE_PUBLISHABLE_KEY"]
+
+  - id: build-push
+    name: gcr.io/cloud-builders/docker
+    entrypoint: /bin/bash
+    args:
+      - -c
+      - |
+        docker run \
+            --network=cloudbuild \
+            -v /workspace:/workspace \
+              gcr.io/kaniko-project/executor:latest \
+                --dockerfile /workspace/Dockerfile \
+                --build-arg=VITE_PUBLIC_API_URL=$_PUBLIC_API_URL \
+                --build-arg=VITE_PUBLIC_FIREBASE_CONFIG=$_PUBLIC_FIREBASE_CONFIG \
+                --build-arg=VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY=$$STRIPE_PUBLISHABLE_KEY \
+                --destination=$_IMAGE_NAME \
+                --cache=true \
+                --context dir:///workspace/
+    secretEnv: ["STRIPE_PUBLISHABLE_KEY"]
+  - name: gcr.io/cloud-builders/gcloud
+    waitFor:
+      - build-push
+    args:
+      - run
+      - deploy
+      - $_SERVICE_NAME
+      - --service-account=$_SERVICE_ACCOUNT
+      - --image=$_IMAGE_NAME
+      - --ingress=internal-and-cloud-load-balancing
+      - --region=$_REGION
+      - --platform=managed
+      - --allow-unauthenticated
+availableSecrets:
+  secretManager:
+    - versionName: $_STRIPE_PUBLISHABLE_KEY_VERSION_NAME
+      env: STRIPE_PUBLISHABLE_KEY
+timeout: 3600s

@@ -1,0 +1,12 @@
+schema:
+  - https://www.parking-hornet.dev/graphql
+documents:
+  - ./src/**/*.gql
+generates:
+  "./src/graphql/generated.ts":
+    plugins:
+      - typescript
+      - typescript-operations
+      - graphql-codegen-svelte-apollo
+    config:
+      clientPath: ../lib/graphql/apollo

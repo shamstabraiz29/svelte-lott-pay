@@ -1,0 +1,57 @@
+query getPublicPark($id: String!) {
+  getPublicPark(data: { id: $id }) {
+    name
+    parkingSlots {
+      id
+      name
+      occupied
+      currentParkEntry {
+        id
+      }
+    }
+  }
+}
+
+query getPublicParkEntry($id: String!) {
+  getPublicParkEntry(data: { id: $id }) {
+    id
+    remainingFare
+    elapsedSeconds
+    enteredAt
+  }
+}
+
+mutation publicPayParkEntry($data: InstantCreatePaymentIntent!) {
+  publicPayParkEntry(data: $data) {
+    clientSecret
+    parkEntry {
+      id
+      remainingFare
+      elapsedSeconds
+      enteredAt
+    }
+    paymentRequest {
+      id
+      referenceNumber
+      amount
+      paymentMethod
+    }
+  }
+}
+
+mutation updatePublicPaymentRequest($data: PublicPaymentRequestUpdate!) {
+  updatePublicPaymentRequest(data: $data) {
+    id
+    receiptEmail
+    sendReceipt
+  }
+}
+mutation confirmPublicPayment($data: InstanceConfirmPaymentIntent!) {
+  confirmPublicPayment(data: $data) {
+    status
+    amount
+    transactionDate
+    referenceNumber
+    sendReceipt
+  }
+}

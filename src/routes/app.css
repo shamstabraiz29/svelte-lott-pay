@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Fractul";
+  src: url("/src/lib/static/fonts/Fractul/Fractul-Regular.eot");
+
+  src: url("/src/lib/static/fonts/Fractul/Fractul-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Regular.woff2") format("woff2"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Regular.woff") format("woff"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Regular.ttf") format("truetype"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fractul";
+  src: url("/src/lib/static/fonts/Fractul/Fractul-Medium.eot");
+  src: url("/src/lib/static/fonts/Fractul/Fractul-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Medium.woff2") format("woff2"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Medium.woff") format("woff"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Medium.ttf") format("truetype"),
+    url("/src/lib/static/fonts/Fractul/Fractul-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+.main {
+  background-image: url("$lib/images/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  overflow-y: auto;
+  padding-bottom: 3rem;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.container {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+.fixed {
+  margin: 0 !important;
+}
+.modal-main button svg {
+  height: 35px !important;
+  width: 35px !important;
+  fill: #b4b4b4 !important;
+}
+.recipt-modal button svg {
+  display: none !important;
+}
+.recipt-modal .reciptClose button svg {
+  display: block !important;
+}
